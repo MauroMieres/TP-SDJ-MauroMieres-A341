@@ -1,0 +1,21 @@
+<div class="login-container">
+    <h3>Login</h3>
+    <input type="text" placeholder="Username" [(ngModel)]="username" class="login-input" />
+
+    <input type="password" placeholder="Password" [(ngModel)]="password" class="login-input" />
+
+    <button (click)="login()" class="login-button">
+        login
+    </button>
+
+    <div class="register-link-container">
+        
+       <!-- <a routerLink="../register" class="register-link">Register</a> esto no funcionaba , en consola mostraba
+        ERROR Error: NG04005: Invalid number of '../'
+        Este mensaje significa que el routerLink="../register" está intentando salir de un nivel de ruta que no existe,
+         es decir, está yendo un nivel arriba cuando ya estás en la raíz o en un nivel donde eso no es válido.
+         Se arreglo Al usar /register, estás yendo directamente a la ruta absoluta /register sin importar en qué parte del árbol de rutas te encuentres actualmente.
+-->
+<a routerLink="/register" class="register-link">Register</a>
+        </div>
+</div>
