@@ -28,7 +28,7 @@ export class AppComponent {
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         this.user = session?.user;
-        console.log(' Usuario logueado:', this.user.email);
+        //console.log(' Usuario logueado:', this.user.email);
       } else if (event === 'SIGNED_OUT') {
         this.user = null;
         console.log('Usuario deslogueado');

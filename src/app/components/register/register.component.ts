@@ -55,7 +55,7 @@ register() {
         return;
       }
 
-      console.log('🔓 Usuario logueado:', loginData.user);
+      //console.log('🔓 Usuario logueado:', loginData.user);
       this.saveUserData(loginData.user!); // Guardar en alumnos-data luego del login
     });
   });

@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
   listenToAuthChanges() {
     supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
-        console.log('Usuario logueado:', session?.user);
+        //console.log('Usuario logueado:', session?.user);
         this.user = session?.user;
       }
 
