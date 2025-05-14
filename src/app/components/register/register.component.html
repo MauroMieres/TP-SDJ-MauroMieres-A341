@@ -1,13 +1,64 @@
-<div class="register-container">
-    <h3>Registro</h3>
-    <input type="text" placeholder="Email" [(ngModel)]="email" class="register-input" />
-    <input type="password" placeholder="Password" [(ngModel)]="password" class="register-input" />
-    <input type="text" placeholder="Nombre" [(ngModel)]="name" class="register-input" />
-    <input type="number" placeholder="Edad" [(ngModel)]="age" class="register-input" />
-    <input type="file" (change)="onFileSelected($event)" class="register-input" />
-    <button (click)="register()" class="register-button">
-        Registro
-    </button>
-    <div class="login-link-container">
-        <a routerLink="../login" class="login-link">Login</a>
+<div class="position-relative vh-100">
+  <!-- Fondo (usá el mismo si querés consistencia con login) -->
+  <div class="position-absolute top-0 start-0 w-100 h-100"
+       style="background: url('https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/login.jpg') no-repeat center center; background-size: cover;">
+  </div>
+
+  <!-- Contenido centrado -->
+  <div class="position-relative d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-sm bg-white" style="min-width: 320px; max-width: 500px; width: 100%; border: none;">
+      
+      <h3 class="text-center mb-4 text-primary">Registro</h3>
+
+      <!-- Inputs -->
+      <div class="form-floating mb-3">
+        <input type="email" class="form-control" id="emailInput" placeholder="Correo Electrónico" [(ngModel)]="email">
+        <label for="emailInput">Correo Electrónico</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="passwordInput" placeholder="Contraseña" [(ngModel)]="password">
+        <label for="passwordInput">Contraseña</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="nombreInput" placeholder="Nombre" [(ngModel)]="name">
+        <label for="nombreInput">Nombre</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="apellidoInput" placeholder="Apellido" [(ngModel)]="last_name">
+        <label for="apellidoInput">Apellido</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="number" class="form-control" id="edadInput" placeholder="Edad" [(ngModel)]="age">
+        <label for="edadInput">Edad</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="number" class="form-control" id="legajoInput" placeholder="Legajo" [(ngModel)]="file">
+        <label for="legajoInput">Legajo</label>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Foto</label>
+        <input type="file" class="form-control" (change)="onFileSelected($event)">
+      </div>
+
+      <!-- Botón -->
+      <div class="d-grid mb-3">
+        <button (click)="register()" class="btn btn-primary">Registrarse</button>
+      </div>
+
+      <p class="text-danger text-center" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </p>
+      
+      <!-- Enlace a login -->
+      <div class="text-center">
+        <a routerLink="/login" class="text-secondary text-decoration-none">¿Ya tenés cuenta? Iniciar sesión</a>
+      </div>
+    </div>
+  </div>
 </div>

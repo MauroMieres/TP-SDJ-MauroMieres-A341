@@ -19,7 +19,6 @@ export class LoginComponent {
   password: string = "";
 
   constructor(private router: Router) {
-  
   }
 
 
@@ -34,7 +33,10 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       }
     });
-
   }
 
+  autocompletar() {
+  this.username = 'mauronicolasmieres@gmail.com';
+  this.password = 'cacatua';
+}
 }

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { QuienSoyComponent } from './components/quien-soy/quien-soy.component';
 
 export const routes: Routes = [
     {
@@ -19,6 +20,10 @@ export const routes: Routes = [
     {
         path: 'register',
         loadComponent: () => import('./components/register/register.component').then(m => m.RegisterComponent),
+    },
+    {
+        path: 'quien-soy',
+        loadComponent: () => import('./components/quien-soy/quien-soy.component').then(m => m.QuienSoyComponent),
     },
     {
         path: '**',
