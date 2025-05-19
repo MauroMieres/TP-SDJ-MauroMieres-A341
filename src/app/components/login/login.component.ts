@@ -24,22 +24,40 @@ export class LoginComponent {
   }
 
 
-  login() {
-    supabase.auth.signInWithPassword({
-      email: this.username,
-      password: this.password,
-    }).then(({ data, error }) => {
-      if (error) {
-        console.error('Error:', error.message);
-        this.errorMessage ='Ocurrió un error: ' + error.message;
+login() { //modificado para que luego de cerrar sesión no quede nada en cache
+  supabase.auth.signInWithPassword({
+    email: this.username,
+    password: this.password,
+  }).then(async ({ data, error }) => {
+
+    //console.log('🔐 Resultado de signInWithPassword →', { data, error });
+
+    if (error || !data.session) {
+      if (error?.message.includes('Invalid login credentials')) {
+        this.errorMessage = 'Las credenciales son inválidas';
       } else {
-        this.router.navigate(['/home']);
+        this.errorMessage = 'Ocurrió un error: ' + (error?.message || 'No se pudo iniciar sesión');
       }
-    });
-  }
+      console.warn('⚠️ Login fallido');
+      return;
+    }
+    // Verificamos la sesión real luego del login
+    const sessionResult = await supabase.auth.getSession();
+    //console.log('📦 Sesión obtenida con getSession():', sessionResult.data.session);
+    const user = sessionResult.data.session?.user;
+    if (user) {
+     // console.log('✅ Usuario logueado:', user.email);
+      this.router.navigate(['/home']);
+    } else {
+      this.errorMessage = 'No se pudo obtener la sesión activa';
+      console.error('❌ Sesión inválida aunque el login fue exitoso');
+    }
+  });
+}
 
   autocompletar() {
   this.username = 'mauronicolasmieres@gmail.com';
   this.password = 'cacatua';
 }
 }
+

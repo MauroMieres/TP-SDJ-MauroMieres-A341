@@ -3,6 +3,7 @@ import { RouterOutlet, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { createClient } from '@supabase/supabase-js';
 import { environment } from '../environments/environment';
+import { Router } from '@angular/router';
 
 const supabase = createClient(environment.apiUrl, environment.publicAnonKey);
 
@@ -18,7 +19,7 @@ export class AppComponent {
 
   user: any = null;
 
-  constructor() {
+  constructor(private router: Router) {
     // Obtenemos la sesión inicial
     supabase.auth.getSession().then(({ data }) => {
       this.user = data.session?.user || null;
@@ -35,9 +36,10 @@ export class AppComponent {
   }
 
   async logout() {
-    await supabase.auth.signOut();
-    window.location.reload();
-  }
-  
+  await supabase.auth.signOut();
+  this.user = null;//con esto se corrige que al cerrar sesion quedara "cacheado"
+  this.router.navigate(['/login']);
+}
+
 }
 

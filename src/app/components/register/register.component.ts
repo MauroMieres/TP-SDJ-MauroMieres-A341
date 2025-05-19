@@ -10,7 +10,7 @@ const supabase = createClient(environment.apiUrl, environment.publicAnonKey)
 
 @Component({
   standalone: true,
-  imports: [FormsModule, RouterLink,CommonModule],
+  imports: [FormsModule, RouterLink, CommonModule],
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -27,66 +27,71 @@ export class RegisterComponent {
 
   errorMessage: string = "";
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
-register() {
-  supabase.auth.signUp({
-    email: this.email,
-    password: this.password,
-  }).then(({ data, error }) => {
-    if (error) {
-      if (error.message.includes('Email address') || error.message.includes('invalid')) {
-        this.errorMessage = 'El correo electrónico no es válido';
-      } else {
-        this.errorMessage = 'Ocurrió un error: ' + error.message;
-      }
-      return;
-    }
-
-    console.log(' Usuario registrado:', data.user);
-
-    supabase.auth.signInWithPassword({
+  register() {
+    supabase.auth.signUp({
       email: this.email,
       password: this.password,
-    }).then(({ data: loginData, error: loginError }) => {
-      if (loginError) {
-        this.errorMessage = 'Error al iniciar sesión automáticamente';
+    }).then(({ data, error }) => {
+      if (error) {
+        if (error.message.includes('Email address') || error.message.includes('invalid')) {
+          this.errorMessage = 'El correo electrónico no es válido';
+        } if (error.message.includes('Password should be at least 6 characters')) {
+          this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
+        }if (error.message.includes('User already registered')) {
+          this.errorMessage = 'Este correo ya se encuentra registrado';
+        }
+        else {
+          this.errorMessage = 'Ocurrió un error: ' + error.message;
+        }
         return;
       }
-      this.saveUserData(loginData.user!); // Guardar en alumnos-data luego del login
-    });
-  });
-}
 
-saveUserData(user: User) {
-  this.saveFile().then((fileData) => {
-    const avatarUrl = fileData?.path || null;
+      console.log(' Usuario registrado:', data.user);
 
-    supabase.from('alumnos-data').insert([
-      {
-        authId: user.id,
-        name: this.name,
-        last_name: this.last_name,
-        age: this.age,
-        file: this.file,
-        avatarUrl: avatarUrl,
-        created_at: new Date().toISOString(),
-        email: this.email
-      }
-    ]).then(({ data, error }) => {
-      if (error) {
-        if (error.message.includes('alumnos-data_email_key')) {
-          this.errorMessage = 'El correo ya está registrado';     
-        }   
-        else {
-          this.errorMessage = 'El legajo ya está registrado';
+      supabase.auth.signInWithPassword({
+        email: this.email,
+        password: this.password,
+      }).then(({ data: loginData, error: loginError }) => {
+        if (loginError) {
+          this.errorMessage = 'Error al iniciar sesión automáticamente';
+          return;
         }
-      } else {
-        this.router.navigate(['/home']);
-      }
+        this.saveUserData(loginData.user!); // Guardar en alumnos-data luego del login
+      });
     });
-  });
-}
+  }
+
+  saveUserData(user: User) {
+    this.saveFile().then((fileData) => {
+      const avatarUrl = fileData?.path || null;
+
+      supabase.from('alumnos-data').insert([
+        {
+          authId: user.id,
+          name: this.name,
+          last_name: this.last_name,
+          age: this.age,
+          file: this.file,
+          avatarUrl: avatarUrl,
+          created_at: new Date().toISOString(),
+          email: this.email
+        }
+      ]).then(({ data, error }) => {
+        if (error) {
+          if (error.message.includes('alumnos-data_email_key')) {
+            this.errorMessage = 'El correo ya está registrado';
+          }
+          else {
+            this.errorMessage = 'El legajo ya está registrado';
+          }
+        } else {
+          this.router.navigate(['/home']);
+        }
+      });
+    });
+  }
 
 
   async saveFile() {
