@@ -1,0 +1,29 @@
+<div class="container mt-4">
+
+  <h5>Mensajes anteriores</h5>
+
+  <div *ngFor="let msg of messages" class="mb-2 d-flex"
+       [ngClass]="{ 'justify-content-end': msg.user_email === user_email, 'justify-content-start': msg.user_email !== user_email }">
+
+    <div
+      [ngClass]="msg.user_email === user_email ? 'msg-propio mensaje' : 'msg-otro mensaje'"
+    >
+      <strong>{{ msg.full_name }}</strong>
+      <p class="mb-1">{{ msg.message }}</p>
+      <small>{{ msg.created_at | date: 'short' }}</small>
+    </div>
+
+  </div>
+
+  <hr />
+
+  <div class="mb-3">
+    <textarea [(ngModel)]="message" class="form-control mb-2" placeholder="Escribí tu mensaje..."></textarea>
+  </div>
+
+  <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!message.trim()">Enviar</button>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-2">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
+
+</div>

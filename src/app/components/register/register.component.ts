@@ -43,9 +43,8 @@ register() {
       return;
     }
 
-    console.log('✅ Usuario registrado:', data.user);
+    console.log(' Usuario registrado:', data.user);
 
-    // 🔒 Login automático
     supabase.auth.signInWithPassword({
       email: this.email,
       password: this.password,
@@ -54,8 +53,6 @@ register() {
         this.errorMessage = 'Error al iniciar sesión automáticamente';
         return;
       }
-
-      //console.log('🔓 Usuario logueado:', loginData.user);
       this.saveUserData(loginData.user!); // Guardar en alumnos-data luego del login
     });
   });
