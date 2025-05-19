@@ -60,25 +60,34 @@ export class HomeComponent implements OnInit {
   }
 
   juegos = [
-    {
-      name: 'Ahorcado',
-      urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/ahorcado.png',
-      description: 'Adiviná la palabra oculta antes de que se complete el dibujo del ahorcado.'
-    },
-    {
-      name: 'Mayor o Menor',
-      urlPicture: 'https://cdn-icons-png.flaticon.com/512/123/123392.png',
-      description: 'Adiviná si el próximo número será mayor o menor al anterior.'
-    },
-    {
-      name: 'Preguntados',
-      urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/preguntadoss.png',
-      description: 'Respondé preguntas de cultura general y sumá puntos en cada categoría.'
-    },
-    {
-      name: 'Juego Propio',
-      urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/juegopropio.png',
-      description: 'Cargando ...'
-    }
-  ];
+  {
+    name: 'Ahorcado',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/ahorcado.png',
+    description: 'Adiviná la palabra oculta antes de que se complete el dibujo del ahorcado.',
+    ruta: '/ahorcado'
+  },
+  {
+    name: 'Mayor o Menor',
+    urlPicture: 'https://cdn-icons-png.flaticon.com/512/123/123392.png',
+    description: 'Adiviná si el próximo número será mayor o menor al anterior.',
+    ruta: '/mayor-menor'
+  },
+  {
+    name: 'Preguntados',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/preguntadoss.png',
+    description: 'Respondé preguntas de cultura general y sumá puntos en cada categoría.',
+    ruta: '/preguntados'
+  },
+  {
+    name: 'Juego Propio',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/juegopropio.png',
+    description: 'Cargando ...',
+    ruta: '/mi-juego'
+  }
+];
+
+irAJuego(ruta: string) {
+  this.router.navigate([ruta]);
+}
+
 }

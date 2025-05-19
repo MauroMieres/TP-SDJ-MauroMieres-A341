@@ -29,6 +29,10 @@ export const routes: Routes = [
         path: 'chat',
         loadComponent: () => import('./components/chat/chat.component').then(m => m.ChatComponent),
     },
+      {
+        path: 'ahorcado',
+        loadComponent: () => import('./components/ahorcado/ahorcado.component').then(m => m.AhorcadoComponent),
+    },
     {
         path: '**',
         loadComponent: () => import('./components/login/login.component').then(m => m.LoginComponent),
