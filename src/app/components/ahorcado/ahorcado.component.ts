@@ -28,8 +28,8 @@ export class AhorcadoComponent implements OnInit {
   }
 
   obtenerPalabra() {
-    this.cargando = true;
-    this.http.get<string[]>('https://random-word-api.herokuapp.com/word?lang=es&number=1').subscribe({
+    this.cargando = true; //modificado para que siempre traiga palabras de 8 letras https://random--word--api-herokuapp-com.translate.goog/home?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc
+    this.http.get<string[]>('https://random-word-api.herokuapp.com/word?lang=es&number=1&length=8').subscribe({
       next: (res) => {
        const palabraRaw = res[0] || 'angular';
   this.palabra = palabraRaw.toUpperCase();
