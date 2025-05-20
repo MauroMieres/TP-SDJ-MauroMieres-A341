@@ -62,25 +62,25 @@ export class HomeComponent implements OnInit {
   juegos = [
   {
     name: 'Ahorcado',
-    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/ahorcado.png',
-    description: 'Adiviná la palabra oculta antes de que se complete el dibujo del ahorcado.',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/ahorcado_icono.png',
+    description: 'Adiviná la palabra oculta antes de ser ahorcado.',
     ruta: '/ahorcado'
   },
   {
     name: 'Mayor o Menor',
-    urlPicture: 'https://cdn-icons-png.flaticon.com/512/123/123392.png',
-    description: 'Adiviná si el próximo número será mayor o menor al anterior.',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/mayor-o-menor_icono.png',
+    description: 'Adiviná si la próxima carta es mayor o menor.',
     ruta: '/mayor-menor'
   },
   {
     name: 'Preguntados',
-    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/preguntadoss.png',
-    description: 'Respondé preguntas de cultura general y sumá puntos en cada categoría.',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/preguntados_icono.png',
+    description: 'Respondé preguntas de cultura general y sumá puntos.',
     ruta: '/preguntados'
   },
   {
     name: 'Juego Propio',
-    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/juegopropio.png',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/juego-propio_icono-2.png',
     description: 'Cargando ...',
     ruta: '/mi-juego'
   }
