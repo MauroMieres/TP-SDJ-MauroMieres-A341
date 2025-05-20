@@ -64,25 +64,25 @@ export class HomeComponent implements OnInit {
     name: 'Ahorcado',
     urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/ahorcado_icono.png',
     description: 'Adiviná la palabra oculta antes de ser ahorcado.',
-    ruta: '/ahorcado'
+    ruta: 'juegos/ahorcado'
   },
   {
     name: 'Mayor o Menor',
     urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/mayor-o-menor_icono.png',
     description: 'Adiviná si la próxima carta es mayor o menor.',
-    ruta: '/mayor-menor'
+    ruta: 'juegos/mayor-menor'
   },
   {
     name: 'Preguntados',
     urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/preguntados_icono.png',
     description: 'Respondé preguntas de cultura general y sumá puntos.',
-    ruta: '/preguntados'
+    ruta: 'juegos/preguntados'
   },
   {
     name: 'Juego Propio',
     urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/juego-propio_icono-2.png',
     description: 'Cargando ...',
-    ruta: '/mi-juego'
+    ruta: 'juegos/mi-juego'
   }
 ];
 
