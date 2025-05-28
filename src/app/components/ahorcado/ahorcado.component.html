@@ -1,4 +1,11 @@
-<div class="container mt-4 text-center">
+<!-- fondo -->
+<div class="position-fixed top-0 start-0 w-100 h-100"
+     style="background: url('https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/login.jpg') no-repeat center center; background-size: cover; z-index: 0;">
+</div>
+
+<!-- contenedor con caja -->
+<div class="container mt-4 text-center caja position-relative z-1">
+
   <h2>Juego del Ahorcado</h2>
 
   <div *ngIf="cargando" class="my-4">
@@ -11,29 +18,30 @@
       <span *ngFor="let letra of letrasMostradas" class="mx-1">{{ letra }}</span>
     </p>
 
-   <div class="mb-3">
-  <span *ngFor="let letra of letrasDisponibles">
-    <button class="btn m-1"
-            [disabled]="letrasUsadas.includes(letra) || estado !== 'jugando'"
-            [ngClass]="{
-              'btn-outline-dark': !letrasUsadas.includes(letra),
-              'border-success text-success': letrasUsadas.includes(letra) && palabra.includes(letra),
-              'border-danger text-danger': letrasUsadas.includes(letra) && !palabra.includes(letra)
-            }"
-            (click)="seleccionarLetra(letra)">
-      {{ letra }}
-    </button>
-  </span>
-</div>
-
+    <div class="mb-3">
+      <span *ngFor="let letra of letrasDisponibles">
+        <button class="btn m-1"
+                [disabled]="letrasUsadas.includes(letra) || estado !== 'jugando'"
+                [ngClass]="{
+                  'btn-outline-dark': !letrasUsadas.includes(letra),
+                  'border-success text-success': letrasUsadas.includes(letra) && palabra.includes(letra),
+                  'border-danger text-danger': letrasUsadas.includes(letra) && !palabra.includes(letra)
+                }"
+                (click)="seleccionarLetra(letra)">
+          {{ letra }}
+        </button>
+      </span>
+    </div>
 
     <p class="text-danger" *ngIf="estado === 'perdido'">¡Perdiste! La palabra era: {{ palabra }}</p>
     <p class="text-success" *ngIf="estado === 'ganado'">🎉 ¡Ganaste! 🎉</p>
     <p *ngIf="estado === 'jugando'">Errores: {{ errores }} / {{ maxErrores }}</p>
+
     <pre class="text-start d-inline-block fs-6 text-monospace">
 {{ dibujoAhorcado }}
 </pre>
-
+<br>
     <button class="btn btn-secondary mt-3" (click)="reiniciarJuego()">🔄 Reiniciar</button>
   </div>
+
 </div>

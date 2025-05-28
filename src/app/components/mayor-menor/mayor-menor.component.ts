@@ -26,7 +26,7 @@ export class MayorMenorComponent implements OnInit {
     'KING': 13, 'ACE': 14
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
     this.iniciarJuego();
@@ -55,6 +55,7 @@ export class MayorMenorComponent implements OnInit {
 
   async elegir(opcion: 'mayor' | 'menor') {
     const siguiente = await this.drawCard();
+
     const valorActual = this.getValor(this.cartaActual);
     const valorSiguiente = this.getValor(siguiente);
 
@@ -65,13 +66,19 @@ export class MayorMenorComponent implements OnInit {
       (opcion === 'menor' && valorSiguiente <= valorActual)
     );
 
-    if (acierto) {
+    if (valorSiguiente === valorActual) {
+      this.mensaje = 'Empate: ¡no se suma punto!';
+      this.cartaActual = siguiente;
+      this.siguienteCarta = null;
+    } else if (acierto) {
       this.contador++;
+      this.mensaje = '¡Correcto!';
       this.cartaActual = siguiente;
       this.siguienteCarta = null;
     } else {
       this.juegoTerminado = true;
       this.perdio = true;
+      this.mensaje = '¡Incorrecto!';
       this.siguienteCarta = siguiente;
     }
   }

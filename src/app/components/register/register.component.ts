@@ -30,23 +30,22 @@ export class RegisterComponent {
   constructor(private router: Router) { }
 
   register() {
-    supabase.auth.signUp({
-      email: this.email,
-      password: this.password,
-    }).then(({ data, error }) => {
-      if (error) {
-        if (error.message.includes('Email address') || error.message.includes('invalid')) {
-          this.errorMessage = 'El correo electrónico no es válido';
-        } if (error.message.includes('Password should be at least 6 characters')) {
-          this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
-        }if (error.message.includes('User already registered')) {
-          this.errorMessage = 'Este correo ya se encuentra registrado';
-        }
-        else {
-          this.errorMessage = 'Ocurrió un error: ' + error.message;
-        }
-        return;
+  supabase.auth.signUp({
+    email: this.email,
+    password: this.password,
+  }).then(({ data, error }) => {
+    if (error) {
+      if (error.message.includes('Password should be at least 6 characters.')) {
+        this.errorMessage = 'La contraseña debe tener al menos 6 caracteres';
+      } else if (error.message.includes('Email address') || error.message.includes('invalid')) {
+        this.errorMessage = 'El correo electrónico no es válido';
+      } else if (error.message.includes('User already registered')) {
+        this.errorMessage = 'Este correo ya se encuentra registrado';
+      } else {
+        this.errorMessage = 'Ocurrió un error: ' + error.message;
       }
+      return;
+    }
 
       console.log(' Usuario registrado:', data.user);
 
