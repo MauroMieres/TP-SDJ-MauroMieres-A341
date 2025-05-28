@@ -2,15 +2,20 @@
 
   <h5>Mensajes anteriores</h5>
 
-  <div *ngFor="let msg of messages" class="mb-2 d-flex"
-       [ngClass]="{ 'justify-content-end': msg.user_email === user_email, 'justify-content-start': msg.user_email !== user_email }">
+  <!-- Contenedor scrollable con referencia -->
+  <div #scrollContainer class="mb-3" style="max-height: 400px; overflow-y: auto;">
 
-    <div
-      [ngClass]="msg.user_email === user_email ? 'msg-propio mensaje' : 'msg-otro mensaje'"
-    >
-      <strong>{{ msg.full_name }}</strong>
-      <p class="mb-1">{{ msg.message }}</p>
-      <small>{{ msg.created_at | date: 'short' }}</small>
+    <div *ngFor="let msg of messages" class="mb-2 d-flex"
+         [ngClass]="{ 'justify-content-end': msg.user_email === user_email, 'justify-content-start': msg.user_email !== user_email }">
+
+      <div
+        [ngClass]="msg.user_email === user_email ? 'msg-propio mensaje' : 'msg-otro mensaje'"
+      >
+        <strong>{{ msg.full_name }}</strong>
+        <p class="mb-1">{{ msg.message }}</p>
+        <small>{{ msg.created_at | date: 'short' }}</small>
+      </div>
+
     </div>
 
   </div>
@@ -18,7 +23,13 @@
   <hr />
 
   <div class="mb-3">
-    <textarea [(ngModel)]="message" class="form-control mb-2" placeholder="Escribí tu mensaje..."></textarea>
+    <textarea
+      [(ngModel)]="message"
+      class="form-control mb-2"
+      placeholder="Escribí tu mensaje..."
+      (keydown.enter)="onEnterKey()"
+      rows="2"
+    ></textarea>
   </div>
 
   <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!message.trim()">Enviar</button>
