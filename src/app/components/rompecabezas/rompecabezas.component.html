@@ -1,0 +1,33 @@
+<div class="position-absolute top-0 start-0 w-100 h-100" 
+     style="background: url('https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/login.jpg') no-repeat center center; background-size: cover; z-index: -1;">
+</div>
+
+<div class="container py-5 d-flex justify-content-center align-items-center">
+  <div class="glass-box p-4 text-center">
+    <h2 class="mb-3">🧩 Rompecabezas</h2>
+
+    <div class="mb-2 d-flex justify-content-between">
+      <div><strong>Movimientos:</strong> {{ movimientos }}</div>
+      <div><strong>Tiempo:</strong> {{ cronometro }}</div>
+    </div>
+
+    <div class="puzzle-grid mb-3">
+      <div
+        class="pieza"
+        *ngFor="let pieza of piezas; let i = index"
+        [ngStyle]="{
+          'background-image': 'url(' + imagenUrl + ')',
+          'background-position': pieza.backgroundPosition
+        }"
+        [class.seleccionada]="seleccionadaIndex === i"
+        (click)="seleccionar(i)"
+      ></div>
+    </div>
+
+    <button class="btn btn-outline-primary" (click)="iniciarJuego()">🔄 Reiniciar</button>
+
+    <div *ngIf="gano" class="alert alert-success text-center mt-3">
+      🎉 ¡Completaste el rompecabezas en {{ movimientos }} movimientos y {{ cronometro }}!
+    </div>
+  </div>
+</div>

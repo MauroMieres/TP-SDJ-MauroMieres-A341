@@ -1,0 +1,30 @@
+.puzzle-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  margin: auto;
+  width: max-content;
+  border: 2px solid #333;
+}
+
+.pieza {
+  width: 100px;
+  height: 100px;
+  background-size: 300px 300px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.pieza.seleccionada {
+  outline: 3px solid #007bff;
+  transform: scale(1.05);
+}
+
+.glass-box {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}

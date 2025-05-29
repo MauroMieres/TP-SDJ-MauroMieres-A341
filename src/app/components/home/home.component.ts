@@ -73,16 +73,16 @@ export class HomeComponent implements OnInit {
     ruta: 'juegos/mayor-menor'
   },
   {
-    name: 'Preguntados',
-    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/preguntados_icono.png',
-    description: 'Respondé preguntas de cultura general y sumá puntos.',
-    ruta: 'juegos/preguntados'
+    name: 'Trivia Simpsons',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/trivia.png',
+    description: '¿Que personaje de los simpsons es el de la imágen?',
+    ruta: 'juegos/trivia'
   },
   {
-    name: 'Juego Propio',
-    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/juego-propio_icono-2.png',
-    description: 'Cargando ...',
-    ruta: 'juegos/mi-juego'
+    name: 'Mi juego: Rompecabezas',
+    urlPicture: 'https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/miJuego.png', 
+    description: 'Reordená las piezas para formar la imagen original.',
+    ruta: 'juegos/rompecabezas'
   }
 ];
 
