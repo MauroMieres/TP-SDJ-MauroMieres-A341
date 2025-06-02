@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './mayor-menor.component.scss'
 })
 export class MayorMenorComponent implements OnInit {
-  deckId = '';
+  cartas: any[] = [];
   cartaActual: any = null;
   siguienteCarta: any = null;
   cartasJugadas: any[] = [];
@@ -18,6 +18,7 @@ export class MayorMenorComponent implements OnInit {
   perdio = false;
   juegoTerminado = false;
   mensaje = '';
+  indiceActual = 0;
 
   readonly valores: Record<string, number> = {
     '2': 2, '3': 3, '4': 4, '5': 5,
@@ -26,35 +27,35 @@ export class MayorMenorComponent implements OnInit {
     'KING': 13, 'ACE': 14
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.iniciarJuego();
   }
 
   iniciarJuego() {
-    this.http.get<any>('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+    this.http.get<any>('https://deckofcardsapi.com/api/deck/new/draw/?count=50')
       .subscribe(res => {
-        this.deckId = res.deck_id;
+        this.cartas = res.cards;
         this.resetEstado();
-        this.drawCard().then(carta => this.cartaActual = carta);
+        this.cartaActual = this.cartas[0];
+        this.indiceActual = 1;
+        this.siguienteCarta = this.cartas[1];
+        console.log('👉 Siguiente carta:', this.siguienteCarta);
       });
   }
 
-  async drawCard(): Promise<any> {
-    const res = await this.http
-      .get<any>(`https://deckofcardsapi.com/api/deck/${this.deckId}/draw/?count=1`)
-      .toPromise();
-
-    return res.cards[0];
+  get siguienteCartaDisponible(): any {
+    return this.cartas[this.indiceActual];
   }
 
   getValor(carta: any): number {
     return this.valores[carta.value as keyof typeof this.valores];
   }
 
-  async elegir(opcion: 'mayor' | 'menor') {
-    const siguiente = await this.drawCard();
+  elegir(opcion: 'mayor' | 'menor') {
+    const siguiente = this.siguienteCartaDisponible;
+    if (!siguiente) return;
 
     const valorActual = this.getValor(this.cartaActual);
     const valorSiguiente = this.getValor(siguiente);
@@ -62,25 +63,26 @@ export class MayorMenorComponent implements OnInit {
     this.cartasJugadas.push(this.cartaActual);
 
     const acierto = (
-      (opcion === 'mayor' && valorSiguiente >= valorActual) ||
-      (opcion === 'menor' && valorSiguiente <= valorActual)
+      (opcion === 'mayor' && valorSiguiente > valorActual) ||
+      (opcion === 'menor' && valorSiguiente < valorActual)
     );
 
     if (valorSiguiente === valorActual) {
       this.mensaje = 'Empate: ¡no se suma punto!';
-      this.cartaActual = siguiente;
-      this.siguienteCarta = null;
     } else if (acierto) {
       this.contador++;
       this.mensaje = '¡Correcto!';
-      this.cartaActual = siguiente;
-      this.siguienteCarta = null;
     } else {
       this.juegoTerminado = true;
       this.perdio = true;
       this.mensaje = '¡Incorrecto!';
-      this.siguienteCarta = siguiente;
     }
+
+    this.siguienteCarta = siguiente;
+    this.cartaActual = siguiente;
+    this.indiceActual++;
+    this.siguienteCarta = this.cartas[this.indiceActual];
+    console.log('👉 Siguiente carta:', this.siguienteCarta);
   }
 
   resetEstado() {
@@ -91,5 +93,6 @@ export class MayorMenorComponent implements OnInit {
     this.perdio = false;
     this.juegoTerminado = false;
     this.mensaje = '';
+    this.indiceActual = 0;
   }
 }

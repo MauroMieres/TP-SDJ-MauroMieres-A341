@@ -60,6 +60,7 @@ export class TriviaComponent implements OnInit {
     if (opcion === this.personaje) {
       this.estado = 'correcto';
       this.puntaje++;
+      setTimeout(() => this.generarPregunta(), 1000); // avanzar automáticamente después de 1 segundo
     } else {
       this.estado = 'incorrecto';
       this.juegoTerminado = true;
