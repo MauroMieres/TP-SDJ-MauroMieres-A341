@@ -31,22 +31,28 @@ export class AhorcadoComponent implements OnInit {
     this.cargando = true; //modificado para que siempre traiga palabras de 8 letras https://random--word--api-herokuapp-com.translate.goog/home?_x_tr_sl=en&_x_tr_tl=es&_x_tr_hl=es&_x_tr_pto=tc
     this.http.get<string[]>('https://random-word-api.herokuapp.com/word?lang=es&number=1&length=8').subscribe({
       next: (res) => {
-       const palabraRaw = res[0] || 'angular';
-  this.palabra = palabraRaw.toUpperCase();
+        const palabraRaw = res[0] || 'angular';
+        this.palabra = palabraRaw.toUpperCase();
 
-  const primeraLetra = this.palabra[0];
-  this.letrasMostradas = this.palabra
-    .split('')
-    .map((letra) => letra === primeraLetra ? letra : '_');
+        const primeraLetra = this.palabra[0];
+        this.letrasMostradas = this.palabra
+          .split('')
+          .map((letra) => letra === primeraLetra ? letra : '_');
 
-  this.letrasUsadas = [primeraLetra];
-  this.cargando = false;
+        this.letrasUsadas = [primeraLetra];
+        this.cargando = false;
         console.log(this.palabra);
       },//esto es para cuando falla la API
       error: (err) => {
         console.error('❌ Error al obtener palabra aleatoria:', err);
         this.palabra = 'ANGULAR';
-        this.letrasMostradas = this.palabra.split('').map((letra, i) => i === 0 ? letra : '_');
+
+        const primeraLetra = this.palabra[0];
+        this.letrasMostradas = this.palabra
+          .split('')
+          .map((letra) => letra === primeraLetra ? letra : '_');
+
+        this.letrasUsadas = [primeraLetra];
         this.cargando = false;
       }
     });
@@ -84,17 +90,17 @@ export class AhorcadoComponent implements OnInit {
   }
 
   get dibujoAhorcado(): string {
-  const partes = {
-    cabeza: this.errores >= 1 ? ' O ' : '   ',
-    cuello: this.errores >= 2 ? ' | ' : '   ',
-    brazoDer: this.errores >= 3 ? '/' : ' ',
-    brazoIzq: this.errores >= 4 ? '\\' : ' ',
-    torso: this.errores >= 5 ? ' | ' : '   ',
-    piernaDer: this.errores >= 6 ? '/' : ' ',
-    piernaIzq: this.errores >= 7 ? '\\' : ' '
-  };
+    const partes = {
+      cabeza: this.errores >= 1 ? ' O ' : '   ',
+      cuello: this.errores >= 2 ? ' | ' : '   ',
+      brazoDer: this.errores >= 3 ? '/' : ' ',
+      brazoIzq: this.errores >= 4 ? '\\' : ' ',
+      torso: this.errores >= 5 ? ' | ' : '   ',
+      piernaDer: this.errores >= 6 ? '/' : ' ',
+      piernaIzq: this.errores >= 7 ? '\\' : ' '
+    };
 
-  return `
+    return `
   +---.
   |   |
   |  ${partes.cabeza}
@@ -102,6 +108,6 @@ export class AhorcadoComponent implements OnInit {
   |   ${partes.torso.trim()}
   |  ${partes.piernaDer} ${partes.piernaIzq}
 =========`;
-}
+  }
 
 }

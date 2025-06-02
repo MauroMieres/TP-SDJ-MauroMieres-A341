@@ -1,40 +1,48 @@
+<div class="position-absolute top-0 start-0 w-100 h-100"
+     style="background: url('https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/login.jpg') no-repeat center center; background-size: cover; z-index: -1;">
+</div>
+
+
 <div class="container mt-4">
+  <div class="glass-box mx-auto p-4 shadow-lg" style="max-width: 800px;">
 
-  <h5>Mensajes anteriores</h5>
+    <h2 class="d-inline-block bg-white px-4 py-2 rounded shadow text-primary">
+        Mensajes anteriores
+      </h2>
 
-  <!-- Contenedor scrollable con referencia -->
-  <div #scrollContainer class="mb-3" style="max-height: 400px; overflow-y: auto;">
+   <div #scrollContainer
+     class="mb-3 p-3 rounded"
+     style="max-height: 400px; overflow-y: auto; overflow-x: hidden; background-color: #f9f9f9;">
 
-    <div *ngFor="let msg of messages" class="mb-2 d-flex"
-         [ngClass]="{ 'justify-content-end': msg.user_email === user_email, 'justify-content-start': msg.user_email !== user_email }">
+      <div *ngFor="let msg of messages" class="mb-3 d-flex"
+           [ngClass]="{ 'justify-content-end': msg.user_email === user_email, 'justify-content-start': msg.user_email !== user_email }">
 
-      <div
-        [ngClass]="msg.user_email === user_email ? 'msg-propio mensaje' : 'msg-otro mensaje'"
-      >
-        <strong>{{ msg.full_name }}</strong>
-        <p class="mb-1">{{ msg.message }}</p>
-        <small>{{ msg.created_at | date: 'short' }}</small>
+        <div [ngClass]="msg.user_email === user_email ? 'bg-primary text-white' : 'bg-secondary text-white'"
+             class="p-2 px-3 rounded shadow-sm"
+             style="max-width: 70%;">
+          <div *ngIf="msg.user_email !== user_email" class="fw-bold mb-1">{{ msg.full_name }}</div>
+          <div>{{ msg.message }}</div>
+          <small class="d-block mt-1 text-light text-end">
+            {{ msg.created_at | date: 'dd/MM/yyyy HH:mm' }}
+          </small>
+        </div>
       </div>
-
     </div>
 
+    <div class="d-flex align-items-end gap-2">
+      <textarea
+        [(ngModel)]="message"
+        class="form-control"
+        placeholder="Escribí tu mensaje..."
+        (keydown.enter)="onEnterKey()"
+        rows="2"
+      ></textarea>
+
+      <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!message.trim()">Enviar</button>
+    </div>
+
+    <div *ngIf="successMessage" class="alert alert-success mt-2">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
+
   </div>
-
-  <hr />
-
-  <div class="mb-3">
-    <textarea
-      [(ngModel)]="message"
-      class="form-control mb-2"
-      placeholder="Escribí tu mensaje..."
-      (keydown.enter)="onEnterKey()"
-      rows="2"
-    ></textarea>
-  </div>
-
-  <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!message.trim()">Enviar</button>
-
-  <div *ngIf="successMessage" class="alert alert-success mt-2">{{ successMessage }}</div>
-  <div *ngIf="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
-
 </div>
