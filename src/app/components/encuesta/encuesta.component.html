@@ -1,0 +1,94 @@
+<div class="position-absolute top-0 start-0 w-100 h-100"
+     style="background: url('https://oyyisnrxraifeivcnpfy.supabase.co/storage/v1/object/public/images/website/login.jpg') no-repeat center center; background-size: cover; z-index: -1;">
+</div>
+
+
+<div class="container mt-4">
+    <div class="glass-box mx-auto p-4 shadow-lg bg-white rounded-4" style="max-width: 800px;">
+
+<h2>Encuesta</h2>
+
+  <form [formGroup]="encuestaForm" (ngSubmit)="enviar()" novalidate>
+    
+    <!-- Nombre -->
+    <div class="mb-3">
+      <label>Nombre</label>
+      <input type="text" class="form-control" formControlName="nombre"  (keypress)="soloLetras($event)" />
+      <div *ngIf="encuestaForm.get('nombre')?.touched && encuestaForm.get('nombre')?.invalid" class="text-danger">
+        Ingrese un nombre válido (solo letras).
+      </div>
+    </div>
+
+    <!-- Apellido -->
+    <div class="mb-3">
+      <label>Apellido</label>
+      <input type="text" class="form-control" formControlName="apellido"  (keypress)="soloLetras($event)" />
+      <div *ngIf="encuestaForm.get('apellido')?.touched && encuestaForm.get('apellido')?.invalid" class="text-danger">
+        Ingrese un apellido válido (solo letras).
+      </div>
+    </div>
+
+    <!-- Edad -->
+    <div class="mb-3">
+      <label>Edad</label>
+      <input type="number" class="form-control" formControlName="edad" />
+      <div *ngIf="encuestaForm.get('edad')?.touched && encuestaForm.get('edad')?.errors" class="text-danger">
+        <div *ngIf="encuestaForm.get('edad')?.errors?.['required']">La edad es obligatoria.</div>
+        <div *ngIf="encuestaForm.get('edad')?.errors?.['min']">Debe tener al menos 18 años.</div>
+        <div *ngIf="encuestaForm.get('edad')?.errors?.['max']">Debe ser menor de 99 años.</div>
+      </div>
+    </div>
+
+    <!-- Teléfono -->
+    <div class="mb-3">
+      <label>Teléfono</label>
+      <input type="text" class="form-control" formControlName="telefono"  (keypress)="soloNumeros($event)" />
+      <div *ngIf="encuestaForm.get('telefono')?.touched && encuestaForm.get('telefono')?.invalid" class="text-danger">
+        Ingrese solo números (máx. 10 dígitos).
+      </div>
+    </div>
+
+    <!-- Pregunta 1: checkbox -->
+    <div class="mb-3 form-check">
+        <label class="form-check-label">¿Recomendarías esta página? Marca la casilla para indicar que si.</label>
+      <input type="checkbox" class="form-check-input" formControlName="pregunta1" />
+
+    </div>
+
+    <!-- Pregunta 2: texto -->
+    <div class="mb-3">
+      <label>¿Qué mejorarías?</label>
+      <input type="text" class="form-control" formControlName="pregunta2" />
+      <div *ngIf="encuestaForm.get('pregunta2')?.touched && encuestaForm.get('pregunta2')?.invalid" class="text-danger">
+        Este campo es obligatorio.
+      </div>
+    </div>
+
+    <!-- Pregunta 3: dropdown -->
+    <div class="mb-3">
+      <label>¿Cuántas estrellas le das a la página?</label>
+      <select class="form-select" formControlName="pregunta3">
+        <option value="" disabled selected>Seleccionar</option>
+        <option *ngFor="let estrella of [1,2,3,4,5]" [value]="estrella">{{ estrella }}</option>
+      </select>
+      <div *ngIf="encuestaForm.get('pregunta3')?.touched && encuestaForm.get('pregunta3')?.invalid" class="text-danger">
+        Debe seleccionar una cantidad de estrellas.
+      </div>
+    </div>
+
+    <!-- Mensaje -->
+    <div *ngIf="mensaje" class="alert mt-2" [ngClass]="{
+        'alert-success': mensaje.includes('✅'),
+        'alert-danger': mensaje.includes('error')
+      }">
+      {{ mensaje }}
+    </div>
+
+    <!-- Botón -->
+    <button class="btn btn-primary" type="submit" [disabled]="cargando || encuestaForm.invalid">
+      {{ cargando ? 'Enviando...' : 'Enviar encuesta' }}
+    </button>
+  </form>
+</div>
+    </div>
+  

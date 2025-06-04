@@ -10,6 +10,8 @@ export const routes: Routes = [
   { path: 'home', loadComponent: () => import('./components/home/home.component').then(m => m.HomeComponent) },
   { path: 'quien-soy', loadComponent: () => import('./components/quien-soy/quien-soy.component').then(m => m.QuienSoyComponent) },
   { path: 'chat', loadComponent: () => import('./components/chat/chat.component').then(m => m.ChatComponent) },
+  { path: 'puntajes', loadComponent: () => import('./components/puntajes/puntajes.component').then(m => m.PuntajesComponent) },
+  { path: 'encuesta', loadComponent: () => import('./components/encuesta/encuesta.component').then(m => m.EncuestaComponent) },
 
   {
     path: 'juegos',

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { createClient } from '@supabase/supabase-js';
+import { environment } from '../../../environments/environment';
+
+const supabase = createClient(environment.apiUrl, environment.publicAnonKey);
 
 @Component({
   selector: 'app-mayor-menor',
@@ -76,6 +80,7 @@ export class MayorMenorComponent implements OnInit {
       this.juegoTerminado = true;
       this.perdio = true;
       this.mensaje = '¡Incorrecto!';
+      this.guardarPuntaje();
     }
 
     this.siguienteCarta = siguiente;
@@ -95,4 +100,45 @@ export class MayorMenorComponent implements OnInit {
     this.mensaje = '';
     this.indiceActual = 0;
   }
+
+  async guardarPuntaje() {
+  const {
+    data: { user },
+    error: userError
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    console.error('No se pudo obtener el usuario:', userError?.message);
+    return;
+  }
+
+  // Buscar los datos del usuario en alumnos-data
+  const { data: alumnoData, error: alumnoError } = await supabase
+    .from('alumnos-data')
+    .select('name, last_name')
+    .eq('authId', user.id)
+    .single();
+
+  if (alumnoError || !alumnoData) {
+    console.error('No se pudo obtener datos del alumno:', alumnoError?.message);
+    return;
+  }
+
+  const nombreCompleto = `${alumnoData.name} ${alumnoData.last_name}`;
+
+  const { error } = await supabase.from('puntuaciones').insert([
+    {
+      puntaje: this.contador,
+      usuario: nombreCompleto,
+      juego: 'Mayor o Menor',
+    }
+  ]);
+
+  if (error) {
+    console.error('❌ Error al guardar el puntaje:', error.message);
+  } else {
+    console.log('✅ Puntaje guardado correctamente.');
+  }
+}
+
 }

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { createClient } from '@supabase/supabase-js';
+import { environment } from '../../../environments/environment';
+
+const supabase = createClient(environment.apiUrl, environment.publicAnonKey);
 
 @Component({
   selector: 'app-rompecabezas',
@@ -86,6 +90,7 @@ export class RompecabezasComponent implements OnInit {
     this.gano = this.piezas.every((pieza, index) => pieza.posicion === index);
     if (this.gano) {
       clearInterval(this.intervalo);
+      this.guardarPuntaje();
     }
   }
 
@@ -103,4 +108,44 @@ export class RompecabezasComponent implements OnInit {
     this.segundos = 0;
     this.cronometro = '00:00';
   }
+
+      async guardarPuntaje() {
+  const {
+    data: { user },
+    error: userError
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    console.error('No se pudo obtener el usuario:', userError?.message);
+    return;
+  }
+
+  // Buscar los datos del usuario en alumnos-data
+  const { data: alumnoData, error: alumnoError } = await supabase
+    .from('alumnos-data')
+    .select('name, last_name')
+    .eq('authId', user.id)
+    .single();
+
+  if (alumnoError || !alumnoData) {
+    console.error('No se pudo obtener datos del alumno:', alumnoError?.message);
+    return;
+  }
+
+  const nombreCompleto = `${alumnoData.name} ${alumnoData.last_name}`;
+
+  const { error } = await supabase.from('puntuaciones').insert([
+    {
+      puntaje: this.movimientos, //este se tiene que ordenar de menor a mayor, a diferencia de los otros //cuando hay empate debe mostrar la mas antigua
+      usuario: nombreCompleto,
+      juego: 'Rompecabezas',
+    }
+  ]);
+
+  if (error) {
+    console.error('❌ Error al guardar el puntaje:', error.message);
+  } else {
+    console.log('✅ Puntaje guardado correctamente.');
+  }
+}
 }
